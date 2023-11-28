@@ -364,7 +364,11 @@ We will define a blueprint in the file `server/resources.py`.
   and `Blueprint.response` to specify request deserialization and response
   serialization respectively.
 
-Edit `resources.py` and create a blueprint for the `Team` resource as shown.
+  A `Blueprint` object is similar to a Flask application object. However, a
+  `Blueprint` is not an actual application, it is a **blueprint** of how to
+  construct or extend an application.
+
+Edit `resources.py` and create a `Blueprint` for the `Team` resource as shown.
 
 ```py
 # server/resources.py
@@ -372,13 +376,14 @@ Edit `resources.py` and create a blueprint for the `Team` resource as shown.
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 
-blp = Blueprint("teams", __name__, url_prefix="/api/v1")
+blp = Blueprint("teams", __name__, url_prefix="/api/v1", description="Operations on teams")
 ```
 
 - `teams` is the blueprint name, which is shown in documentation and prepended
   to the endpoint names when you use `url_for`.
 - `__name__` is the "import name".
 - `url_prefix` is prepended to all routes associated with the blueprint.
+- `description` argument description.
 
 Now that we've define a blueprint, let's add a class named `Teams` that is a
 subclass of `MethodView`.
@@ -701,7 +706,7 @@ from flask_smorest import Blueprint, abort
 from models import Team
 from schemas import TeamSchema
 
-blp = Blueprint("Team API", __name__, url_prefix="/api/v1")
+blp = Blueprint("teams", __name__, url_prefix="/api/v1", description="Operations on teams")
 
 @blp.route("/teams")
 class Teams(MethodView):
